@@ -8,39 +8,49 @@ Essas instruções fornecerão uma cópia do projeto em execução na sua máqui
 
 ### Pré-requisitos
 
-1.PHP 7.4.1+
+1.Antes de começar deve se rodar o comando abaixo para atualizar os pacotes que vamos precisar
 
 ```
-$ sudo apt install php7.4.1
+$ sudo apt-get update
 ```
 
-2.Extensões PHP (PHP extensions) para utilização do Laravel
+2.PHP 7.4+
 
 ```
-$ apt-get install openssl php7.4.1-curl php7.4.1-dev php7.4.1-gd php7.4.1-mbstring php7.4.1-zip php7.4.1-mysql php7.4.1-xml php-token-stream php7.4.1-json php7.4.1-bcmath php7.4.1-json php7.4.1-tokenizer
+$ sudo apt-get install software-properties-common
+$ sudo add-apt-repository ppa:ondrej/php
+$ sudo apt install php7.4
 ```
-3.Banco de dados para utilização das tabelas
+
+3.Extensões PHP (PHP extensions) para utilização do Laravel
+
+```
+$ sudo apt-get install openssl php7.4-curl php7.4-dev php7.4-gd php7.4-mbstring php7.4-zip php7.4-mysql php7.4-xml php-token-stream php7.4-json php7.4-bcmath php7.4-json php7.4-tokenizer
+```
+
+4.Banco de dados recomendado para utilização das tabelas
 
 ```
 $ sudo apt install mariadb-server
 ```
 
-4.Apache Maven
+5.Apache Maven
 
 ```
 $ sudo apt-get install maven
 ```
 
-5.Composer para instalação do Laravel
+6.Composer para instalação do Laravel
 
 ```
+cd ~
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-php -r "if (hash_file('sha384', 'composer-setup.php') === 'e0012edf3e80b6978849f5eff0d4b4e4c79ff1609dd1e613307e16318854d24ae64f26d17af3ef0bf7cfb710ca74755a') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
 php composer-setup.php
 php -r "unlink('composer-setup.php');"
+sudo apt install composer
 ```
 
-6.Laravel
+7.Laravel
 
 ```
 $ composer global require "laravel/installer"
@@ -64,7 +74,13 @@ Após isto é necessário a configuração do arquivo .env.example para que fiqu
 $ mv .env.example .env
 ```
 
-Crie as tabelas com o comando do laravel.
+Após isso deve-se instalar as dependências do projeto que estão no arquivo composer.lock
+
+```
+$ composer install
+```
+
+Crie as tabelas na sua database com o comando do laravel.
 
 ```
 $ php artisan migrate
