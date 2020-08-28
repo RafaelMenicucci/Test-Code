@@ -10,14 +10,14 @@
     </div>
 @endif
             <div class="card">
-                <div class="card-header">Criar Prova da Disciplina {{$disciplina}} sobre o Projeto {{$nomeProjeto}}</div>
+                <div class="card-header">Criar Avaliação da Disciplina {{$disciplina}} sobre o Projeto {{$nomeProjeto}}</div>
 
                 <div class="card-body">
                     <form method="POST" enctype="multipart/form-data" action="{{ route('criarProva',['disciplina'=>$disciplina,'nomeProjeto'=>$nomeProjeto]) }}">
                         @csrf   
 
                         <div class="form-group row">
-                            <label for="nome" class="col-md-4 col-form-label text-md-right">{{ __('Nome Prova') }}</label>
+                            <label for="nome" class="col-md-4 col-form-label text-md-right">{{ __('Nome da Avaliação') }}</label>
 
                             <div class="col-md-6">
                                 <input id="nome" type="text" class="form-control @error('nome') is-invalid @enderror" name="nome" value="{{ old('nome') }}" required autocomplete="nome" autofocus>
@@ -45,7 +45,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="featured">Prova</label>
+                            <label for="featured">Avaliação</label>
                             <input type="file" id='featured' name="featured" class="form-control">
                             @error('featured')
                                 <span class="invalid-feedback" role="alert">
@@ -57,7 +57,7 @@
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Criar Prova') }}
+                                    {{ __('Criar Avaliação') }}
                                 </button>
                             </div>
                         </div>

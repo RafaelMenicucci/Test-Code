@@ -69,17 +69,17 @@
                 <div class="top-right links">
                     @auth
                         @if(Auth::user()->papel=='Professor')
-                            <a href="{{ url('/professor/home') }}">Página Principal</a>
+                            <a href="{{ url('/professor/home') }}">Página Inicial</a>
                         @elseif(Auth::user()->papel=='Aluno')    
-                            <a href="{{ url('/aluno/home') }}">Página Principal</a>
+                            <a href="{{ url('/aluno/home') }}">Página Inicial</a>
                         @elseif(Auth::user()->papel=='ADM')    
-                            <a href="{{ url('/adm/home') }}">Página Principal</a>
+                            <a href="{{ url('/adm/home') }}">Página Inicial</a>
                         @endif
                     @else
                         <a href="{{ route('login') }}">Login</a>
 
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
+                            <a href="{{ route('register') }}">Registrar</a>
                         @endif
                     @endauth
                 </div>

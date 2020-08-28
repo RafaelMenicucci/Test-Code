@@ -51,7 +51,7 @@
                             </li>
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Registrar') }}</a>
                                 </li>
                             @endif
                         @else
@@ -98,7 +98,7 @@
                                 </ul>
                             @if(Auth::user()->papel=='Professor')
                                         <li class="list-group-item">
-                                            <a href="/professor/home">Home</a>
+                                            <a href="/professor/home">Página Inicial</a>
                                         </li>
                                         <li class="list-group-item">
                                             <a class="" href="{{ route('criarDisciplina') }}">{{ __('Criar Disciplina') }}</a>        
@@ -111,7 +111,7 @@
                                 </div>
                             @elseif(Auth::user()->papel=='Aluno')
                                         <li class="list-group-item">
-                                            <a href="/aluno/home">Home</a>
+                                            <a href="/aluno/home">Página Inicial</a>
                                         </li>
                                         <li class="list-group-item">
                                             <!-- <a href="/aluno/notas">Notas</a> -->
@@ -129,7 +129,7 @@
                                 <div class="col-md-2">
                                     <ul class="list-group">
                                         <li class="list-group-item">
-                                            <a href="/professor/home">Home</a>
+                                            <a href="/professor/home">Página Inicial</a>
                                         </li>
                                         <li class="list-group-item">
                                             <a class="" href="{{ route('criarDisciplina') }}">{{ __('Criar Disciplina') }}</a>        
@@ -144,7 +144,7 @@
                                 <div class="col-lg-2">
                                     <ul class="list-group">
                                         <li class="list-group-item">
-                                            <a href="/aluno/home">Home</a>
+                                            <a href="/aluno/home">Página Inicial</a>
                                         </li>
                                         <li class="list-group-item">
                                             <!-- <a href="/aluno/notas">Notas</a> -->

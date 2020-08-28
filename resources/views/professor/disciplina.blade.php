@@ -16,7 +16,7 @@
     <li class="list-group-item">
         <a href="/professor/{{$disciplina}}/upload" class='btn btn-primary' role='button'>Fazer Upload do Projeto</a>
         <a class="btn btn-primary" href="/professor/{{$disciplina}}/adicionarAluno">{{ __('Adicionar Aluno') }}</a>        
-        <a class="btn btn-primary" role='button' href="/professor/{{$disciplina}}/projetos">Criar Prova</a>
+        <a class="btn btn-primary" role='button' href="/professor/{{$disciplina}}/projetos">Criar Avaliação</a>
         <a class="btn btn-primary" role='button' href="/professor/{{$disciplina}}/notas">Ver Notas</a>        
     </li>
     </div>
