@@ -44,7 +44,9 @@ class CadastrarController extends Controller
     public function buscarUsuario(Request $request){
         $usuariosBuscados = DB::table('usuarios')
                             ->select('usuarios.*')
-                            ->where('usuarios.nome', 'like', '%' . $request->usuario . '%')
+                            ->where([['usuarios.nome', 'like', '%' . $request->usuario . '%'],
+                                    ['usuarios.papel','=','Professor'],
+                                    ])
                             ->get();
 
         return view('/adm/cadastrar', compact('usuariosBuscados'));
