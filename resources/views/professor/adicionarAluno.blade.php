@@ -99,7 +99,7 @@
 @endif
 
 <div class='card'>
-    <div class='card-header'>Alunos Adicionados a Disciplina</div>
+    <div class='card-header'>Alunos Adicionados à Disciplina</div>
 
     <div class='card-body'>
         @if(!$usuariosDisciplina->isEmpty())
