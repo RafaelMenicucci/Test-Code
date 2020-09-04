@@ -99,9 +99,10 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $formataNome = ucwords(strtolower($data['nome']));
 
         return Usuario::create([
-            'nome' => $data['nome'],
+            'nome' => $formataNome,
             'email' => $data['email'],
             'matricula' => $data['matricula'],
             'papel' => $data['papel'],
