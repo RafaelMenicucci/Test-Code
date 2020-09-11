@@ -43,18 +43,18 @@ class CriarDisciplinaController extends Controller
         return view('/professor/adicionarAluno', compact('disciplina','usuariosDisciplina','alunosBuscados'));
     }
 
-    public function criarDisciplina(Request $request){
-        $validatedData = $request->validate([
+    public function criarDisciplina(Request $infoDisciplina){
+        $validatedData = $infoDisciplina->validate([
             'nome' => 'required|unique:disciplinas|string|max:255',
             'anoPeriodo' => 'required|string|max:255',
         ]);
 
         Disciplina::create([
-            'nome' => $request->nome,
-            'anoPeriodo' => $request->anoPeriodo,
+            'nome' => $infoDisciplina->nome,
+            'anoPeriodo' => $infoDisciplina->anoPeriodo,
         ]);
 
-        $idDisciplina = Disciplina::where('nome',$request->nome)->first();
+        $idDisciplina = Disciplina::where('nome',$infoDisciplina->nome)->first();
 
         Usuariosdisciplinas::create([
             'idUsuario' => auth()->user()->id,
@@ -71,7 +71,7 @@ class CriarDisciplinaController extends Controller
                         ->select('usuarios.*')
                         ->where('usuarios.papel','=','Aluno')
                         ->get();
-        Session::flash('status', 'Disciplina '.$request->nome.' criada com Sucesso.');
+        Session::flash('status', 'Disciplina '.$infoDisciplina->nome.' criada com Sucesso.');
         return view('/professor/home', compact('disciplinas'));
     }
 
@@ -115,12 +115,12 @@ class CriarDisciplinaController extends Controller
         return redirect()->back();
     }
 
-    public function buscarAluno(Request $request, $disciplina){
+    public function buscarAluno(Request $nomeAluno, $disciplina){
 
         $alunosBuscados = DB::table('usuarios')
                             ->select('usuarios.*')
                             ->where([['usuarios.papel','=','Aluno'],
-                            ['usuarios.nome', 'like', '%' . $request->aluno . '%'],
+                            ['usuarios.nome', 'like', '%' . $nomeAluno->aluno . '%'],
                             ])
                             ->get();
 

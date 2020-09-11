@@ -27,12 +27,12 @@ class DisciplinaController extends Controller
         return view('/professor/upload', compact('disciplina'));
     }
 
-    public function guardaProjeto(Request $request, $disciplina){
-        $this->validate($request, [
+    public function guardaProjeto(Request $projetoCompactado, $disciplina){
+        $this->validate($projetoCompactado, [
             'featured' => 'required|mimes:zip'
         ]);
 
-        $featured = $request->featured;
+        $featured = $projetoCompactado->featured;
         $featured_new_name = time().$featured->getClientOriginalName();
         $featuredsemzip = pathinfo($featured_new_name, PATHINFO_FILENAME);
 
