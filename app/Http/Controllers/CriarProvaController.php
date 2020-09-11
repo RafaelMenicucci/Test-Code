@@ -6,7 +6,7 @@ use App\Disciplina;
 use App\Usuario;
 use App\Prova;
 use App\Usuariosdisciplinas;
-use App\Mail\AdicionarAlunoDisciplina;
+use App\Mail\AvaliacaoCriada;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Session;
@@ -77,8 +77,13 @@ class CriarProvaController extends Controller
                                 ['usuariosdisciplinas.idDisciplina','=',$idDisciplina->id],
                                 ])
                         ->get();
-        $user = Usuario::where('id', $aluno_id)->first();
-        Mail::to($user->email)->send(new AdicionarAlunoDisciplina($user, $disciplina));
+        
+        if($usuarios){
+            foreach($usuarios as $user){
+                $user = Usuario::where('id', $user->id)->first();
+                Mail::to($user->email)->send(new AvaliacaoCriada($user, $disciplina));
+            }
+        }
 
         return view('/professor/criarProva', compact('disciplina','nomeProjeto'));
     }
