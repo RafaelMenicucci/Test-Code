@@ -41,12 +41,12 @@ class CriarProvaController extends Controller
         return view('/professor/criarProva', compact('disciplina','nomeProjeto'));
     }
 
-    public function criarProva(Request $request, $disciplina,$nomeProjeto){
-        $this->validate($request, [
+    public function criarProva(Request $provaCompactada, $disciplina,$nomeProjeto){
+        $this->validate($provaCompactada, [
             'featured' => 'required|mimes:zip'
         ]);
 
-        $featured = $request->featured;
+        $featured = $provaCompactada->featured;
         $featured_new_name = time().$featured->getClientOriginalName();
         $featuredsemzip = pathinfo($featured_new_name, PATHINFO_FILENAME);
         $featured->move('uploads/'.$disciplina.'/provas/'.$featuredsemzip.'/',$featured_new_name);
@@ -59,11 +59,11 @@ class CriarProvaController extends Controller
         $prova = Prova::create([
             'featured' => 'uploads/'.$disciplina.'/provas/'. $featuredsemzip .'/'. $featured_new_name,
             'idProjeto' => $idProjeto->id,
-            'nomeProva' => $request->nome,
-            'dataLimite' => $request->dataLimite,
+            'nomeProva' => $provaCompactada->nome,
+            'dataLimite' => $provaCompactada->dataLimite,
         ]);
         
-        Session::flash('status', 'Prova '.$request->nome.' do projeto '. $nomeProjeto.' criada com Sucesso.');
+        Session::flash('status', 'Prova '.$provaCompactada->nome.' do projeto '. $nomeProjeto.' criada com Sucesso.');
 
         $idDisciplina = DB::table('disciplinas')
                         ->select('disciplinas.*')
