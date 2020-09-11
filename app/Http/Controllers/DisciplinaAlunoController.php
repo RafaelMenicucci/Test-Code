@@ -70,9 +70,9 @@ class DisciplinaAlunoController extends Controller
         return view('/professor/upload', compact('disciplina'));
     }
 
-    public function mandarResposta(Request $request){
-        $disciplina = $request->disciplina;
-        $nomeProva = $request->nomeProva;
+    public function mandarResposta(Request $respostaCompactada){
+        $disciplina = $respostaCompactada->disciplina;
+        $nomeProva = $respostaCompactada->nomeProva;
         $prova = DB::table('provas')
         ->select('provas.*')
         ->where('provas.nomeProva','=',$nomeProva)
@@ -88,13 +88,13 @@ class DisciplinaAlunoController extends Controller
                 return redirect()->back();
             }
         }
-        $this->validate($request, [
+        $this->validate($respostaCompactada, [
             'featured' => 'required|mimes:zip'
         ]);
 
         $searchzip = '.zip';
 
-        $featured = $request->featured;
+        $featured = $respostaCompactada->featured;
         $featured_new_name = $featured->getClientOriginalName();
         $featured->move('uploads/'.$disciplina.'/respostas/'. auth()->user()->nome .'/'. $nomeProva.'/',$featured_new_name);
 
