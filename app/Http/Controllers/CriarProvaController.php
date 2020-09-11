@@ -65,6 +65,21 @@ class CriarProvaController extends Controller
         
         Session::flash('status', 'Prova '.$request->nome.' do projeto '. $nomeProjeto.' criada com Sucesso.');
 
+        $idDisciplina = DB::table('disciplinas')
+                        ->select('disciplinas.*')
+                        ->where('disciplinas.nome','=',$disciplina)
+                        ->first();
+
+        $usuarios = DB::table('usuarios')
+                        ->join('usuariosdisciplinas','usuarios.id','=','usuariosdisciplinas.idUsuario')
+                        ->select('usuarios.*')
+                        ->where([['usuarios.papel','=','Aluno'],
+                                ['usuariosdisciplinas.idDisciplina','=',$idDisciplina->id],
+                                ])
+                        ->get();
+        $user = Usuario::where('id', $aluno_id)->first();     
+        Mail::to($user->email)->send(new AdicionarAlunoDisciplina($user, $disciplina));
+
         return view('/professor/criarProva', compact('disciplina','nomeProjeto'));
     }
 }
