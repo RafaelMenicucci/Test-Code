@@ -16,11 +16,11 @@ class CadastrarController extends Controller
         return view('adm.cadastrar',compact('usuariosBuscados'));
     }
 
-    public function registrar(Request $data){
+    public function registrar(Request $registro){
         $usuarios = DB::table('usuarios')
         ->select('usuarios.*')
-        ->where([['usuarios.email','=',$data['email']],
-            ['usuarios.papel','=',$data['papel']],
+        ->where([['usuarios.email','=',$registro['email']],
+            ['usuarios.papel','=',$registro['papel']],
         ])
         ->first();
 
@@ -30,21 +30,21 @@ class CadastrarController extends Controller
         }
 
         Usuario::create([
-            'nome' => $data['nome'],
-            'email' => $data['email'],
+            'nome' => $registro['nome'],
+            'email' => $registro['email'],
             'matricula' =>  NULL,
-            'papel' => $data['papel'],
-            'password' => Hash::make($data['password']),
+            'papel' => $registro['papel'],
+            'password' => Hash::make($registro['password']),
         ]);
 
-        Session::flash('status', 'Administrador '.$data['nome'].' registrado com Sucesso.');
+        Session::flash('status', 'Administrador '.$registro['nome'].' registrado com Sucesso.');
         return view('adm.cadastrar');
     }
 
-    public function buscarUsuario(Request $request){
+    public function buscarUsuario(Request $nomeUsuario){
         $usuariosBuscados = DB::table('usuarios')
                             ->select('usuarios.*')
-                            ->where([['usuarios.nome', 'like', '%' . $request->usuario . '%'],
+                            ->where([['usuarios.nome', 'like', '%' . $nomeUsuario->usuario . '%'],
                                     ['usuarios.papel','=','Professor'],
                                     ])
                             ->get();
