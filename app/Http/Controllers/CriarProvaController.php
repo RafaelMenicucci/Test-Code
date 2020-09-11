@@ -41,12 +41,12 @@ class CriarProvaController extends Controller
         return view('/professor/criarProva', compact('disciplina','nomeProjeto'));
     }
 
-    public function criarProva(Request $provaCompactada, $disciplina,$nomeProjeto){
-        $this->validate($provaCompactada, [
+    public function criarProva(Request $avaliacaoCompactada, $disciplina,$nomeProjeto){
+        $this->validate($avaliacaoCompactada, [
             'featured' => 'required|mimes:zip'
         ]);
 
-        $featured = $provaCompactada->featured;
+        $featured = $avaliacaoCompactada->featured;
         $featured_new_name = time().$featured->getClientOriginalName();
         $featuredsemzip = pathinfo($featured_new_name, PATHINFO_FILENAME);
         $featured->move('uploads/'.$disciplina.'/provas/'.$featuredsemzip.'/',$featured_new_name);
@@ -59,11 +59,11 @@ class CriarProvaController extends Controller
         $prova = Prova::create([
             'featured' => 'uploads/'.$disciplina.'/provas/'. $featuredsemzip .'/'. $featured_new_name,
             'idProjeto' => $idProjeto->id,
-            'nomeProva' => $provaCompactada->nome,
-            'dataLimite' => $provaCompactada->dataLimite,
+            'nomeProva' => $avaliacaoCompactada->nome,
+            'dataLimite' => $avaliacaoCompactada->dataLimite,
         ]);
         
-        Session::flash('status', 'Prova '.$provaCompactada->nome.' do projeto '. $nomeProjeto.' criada com Sucesso.');
+        Session::flash('status', 'Prova '.$avaliacaoCompactada->nome.' do projeto '. $nomeProjeto.' criada com Sucesso.');
 
         $idDisciplina = DB::table('disciplinas')
                         ->select('disciplinas.*')
@@ -77,7 +77,7 @@ class CriarProvaController extends Controller
                                 ['usuariosdisciplinas.idDisciplina','=',$idDisciplina->id],
                                 ])
                         ->get();
-        $user = Usuario::where('id', $aluno_id)->first();     
+        $user = Usuario::where('id', $aluno_id)->first();
         Mail::to($user->email)->send(new AdicionarAlunoDisciplina($user, $disciplina));
 
         return view('/professor/criarProva', compact('disciplina','nomeProjeto'));
