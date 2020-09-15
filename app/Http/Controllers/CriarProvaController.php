@@ -82,7 +82,7 @@ class CriarProvaController extends Controller
         if($usuarios){
             foreach($usuarios as $user){
                 $user = Usuario::where('id', $user->id)->first();
-                Mail::to($user->email)->send(new AvaliacaoCriada($user, $disciplina));
+                //Mail::to($user->email)->send(new AvaliacaoCriada($user, $disciplina));
             }
         }
 
