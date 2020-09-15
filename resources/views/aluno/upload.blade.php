@@ -23,8 +23,8 @@
         <form action="{{ route('enviarResposta') }}" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
 
-            <input id="disciplina" hidden type="text" hidden name="disciplina" value={{$disciplina}}>
-            <input id="nomeProva" hidden type="text" hidden name="nomeProva" value={{$prova_nome}}>
+            <input id="disciplina" hidden type="text" hidden name="disciplina" value="{{$disciplina}}">
+            <input id="nomeProva" hidden type="text" hidden name="nomeProva" value="{{$prova_nome}}">
             <div class="form-group">
                 <label for="featured">Projeto</label>
                 <input type="file" id='featured' name="featured" class="form-control">

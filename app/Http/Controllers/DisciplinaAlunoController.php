@@ -72,7 +72,10 @@ class DisciplinaAlunoController extends Controller
 
     public function mandarResposta(Request $respostaCompactada){
         $disciplina = $respostaCompactada->disciplina;
+        $disciplinaExec = str_replace(" ", "\ ", $disciplina);
         $nomeProva = $respostaCompactada->nomeProva;
+        $nomeProvaExec = str_replace(" ", "\ ", $nomeProva);
+        $nomeAlunoExec = str_replace(" ", "\ ", auth()->user()->nome);
         $prova = DB::table('provas')
         ->select('provas.*')
         ->where('provas.nomeProva','=',$nomeProva)
@@ -107,8 +110,8 @@ class DisciplinaAlunoController extends Controller
             ->where('projetos.id','=',$prova->idProjeto)
             ->first();
         
-        exec("unzip uploads/$disciplina/respostas/".auth()->user()->nome."/$nomeProva/$featured_new_name -d uploads/$disciplina/respostas/".auth()->user()->nome."/$nomeProva/");
-        exec("ls uploads/$disciplina/respostas/".auth()->user()->nome."/$nomeProva/",$out);
+        exec("unzip uploads/$disciplinaExec/respostas/".$nomeAlunoExec."/$nomeProvaExec/$featured_new_name -d uploads/$disciplinaExec/respostas/".$nomeAlunoExec."/$nomeProvaExec/");
+        exec("ls uploads/$disciplinaExec/respostas/".$nomeAlunoExec."/$nomeProvaExec/",$out);
         
         if(strstr($out[0],$searchzip)){
             $nomeResposta = $out[1];
@@ -116,11 +119,11 @@ class DisciplinaAlunoController extends Controller
             $nomeResposta = $out[0];
         }
 
-        exec("ls uploads/$disciplina/respostas/".auth()->user()->nome."/$nomeProva/$nomeResposta",$out3);
+        exec("ls uploads/$disciplinaExec/respostas/".$nomeAlunoExec."/$nomeProvaExec/$nomeResposta",$out3);
         $nomeProjeto = $out3[0];
-        exec("cp -r $projeto->featured/src/test uploads/$disciplina/respostas/".auth()->user()->nome."/$nomeProva/$nomeResposta/$nomeProjeto/src/");
-        exec("cp -r $projeto->featured/pom.xml uploads/$disciplina/respostas/".auth()->user()->nome."/$nomeProva/$nomeResposta/$nomeProjeto");
-        exec("mvn test -f uploads/$disciplina/respostas/".auth()->user()->nome."/$nomeProva/$nomeResposta/$nomeProjeto",$out2);
+        exec("cp -r $projeto->featured/src/test uploads/$disciplinaExec/respostas/".$nomeAlunoExec."/$nomeProvaExec/$nomeResposta/$nomeProjeto/src/");
+        exec("cp -r $projeto->featured/pom.xml uploads/$disciplinaExec/respostas/".$nomeAlunoExec."/$nomeProvaExec/$nomeResposta/$nomeProjeto");
+        exec("mvn test -f uploads/$disciplinaExec/respostas/".$nomeAlunoExec."/$nomeProvaExec/$nomeResposta/$nomeProjeto",$out2);
         
         $total=0;
         $search = 'Tests run';
@@ -140,14 +143,14 @@ class DisciplinaAlunoController extends Controller
         if($total!=0){
             $nota = 10-((10/$total)*$erros);
         }else{
-            exec("rm -r -d uploads/$disciplina/respostas/".auth()->user()->nome."/$nomeProva");
+            exec("rm -r -d uploads/$disciplinaExec/respostas/".$nomeAlunoExec."/$nomeProvaExec");
             Session::flash('erro', 'Houve um erro no envio da sua prova, por favor verifique se seu envio está conforme o necessário.');
             return redirect()->back();
         }
 
 
         $resposta = Resposta::create([
-            'featured' => 'uploads/'.$disciplina.'/respostas/'. auth()->user()->nome .'/'. $nomeProva.'/',
+            'featured' => 'uploads/'.$disciplinaExec.'/respostas/'. $nomeAlunoExec .'/'. $nomeProvaExec.'/',
             'idProva' => $prova->id,
             'idAluno' => auth()->user()->id,
             'nota' => $nota,

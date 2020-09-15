@@ -45,6 +45,7 @@ class CriarProvaController extends Controller
         $this->validate($avaliacaoCompactada, [
             'featured' => 'required|mimes:zip'
         ]);
+        $disciplinaExec = str_replace(" ", "\ ", $disciplina);
 
         $featured = $avaliacaoCompactada->featured;
         $featured_new_name = time().$featured->getClientOriginalName();
@@ -57,7 +58,7 @@ class CriarProvaController extends Controller
                         ->first();
 
         $prova = Prova::create([
-            'featured' => 'uploads/'.$disciplina.'/provas/'. $featuredsemzip .'/'. $featured_new_name,
+            'featured' => 'uploads/'.$disciplinaExec.'/provas/'. $featuredsemzip .'/'. $featured_new_name,
             'idProjeto' => $idProjeto->id,
             'nomeProva' => $avaliacaoCompactada->nome,
             'dataLimite' => $avaliacaoCompactada->dataLimite,

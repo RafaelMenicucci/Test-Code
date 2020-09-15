@@ -31,6 +31,7 @@ class DisciplinaController extends Controller
         $this->validate($projetoCompactado, [
             'featured' => 'required|mimes:zip'
         ]);
+        $disciplinaExec = str_replace(" ", "\ ", $disciplina);
 
         $featured = $projetoCompactado->featured;
         $featured_new_name = time().$featured->getClientOriginalName();
@@ -46,12 +47,12 @@ class DisciplinaController extends Controller
         }
 
         $featured->move('uploads/'.$disciplina.'/projetos/'.$featuredsemzip.'/',$featured_new_name);
-
-        exec("unzip uploads/$disciplina/projetos/$featuredsemzip/$featured_new_name -d uploads/$disciplina/projetos/$featuredsemzip/");
-        exec("ls uploads/$disciplina/projetos/$featuredsemzip/",$out);
+        
+        exec("unzip uploads/$disciplinaExec/projetos/$featuredsemzip/$featured_new_name -d uploads/$disciplinaExec/projetos/$featuredsemzip/");
+        exec("ls uploads/$disciplinaExec/projetos/$featuredsemzip/",$out);
         $featuredoriginal=$out[1];
 
-        exec("mvn test -f uploads/$disciplina/projetos/$featuredsemzip/$featuredoriginal",$out2);
+        exec("mvn test -f uploads/$disciplinaExec/projetos/$featuredsemzip/$featuredoriginal",$out2);
         
         $result = 1;
         $search = 'Failed tests';
@@ -60,7 +61,7 @@ class DisciplinaController extends Controller
             if(strstr($linha, $search)){
                 $result=0;
                 Session::flash('erro', $linha);
-                exec('rm -rf uploads/'.$disciplina.'/projetos/'.$featuredsemzip);
+                exec('rm -rf uploads/'.$disciplinaExec.'/projetos/'.$featuredsemzip);
             }
             if(strstr($linha, $search2)){
                 Session::flash('info', $linha);
@@ -69,7 +70,7 @@ class DisciplinaController extends Controller
 
         if($result){
             $prova = Projeto::create([
-                'featured' => 'uploads/'.$disciplina.'/projetos/'. $featuredsemzip .'/'. $featuredoriginal,
+                'featured' => 'uploads/'.$disciplinaExec.'/projetos/'. $featuredsemzip .'/'. $featuredoriginal,
                 'idDisciplina' => $id,
                 'nomeProjeto' => $featuredoriginal,
             ]);
