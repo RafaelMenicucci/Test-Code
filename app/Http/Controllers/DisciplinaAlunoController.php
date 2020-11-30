@@ -56,9 +56,9 @@ class DisciplinaAlunoController extends Controller
                             ->select('provas.*')
                             ->where('provas.nomeProva','=',$prova_nome)
                             ->first();
-        
 
-        $path = public_path($prova->featured);
+        $provaFeaturedExec = str_replace("\ ", " ", $prova->featured);
+        $path = public_path($provaFeaturedExec);
         $name = "TestCode_".$prova->nomeProva.".zip";
         $headers = [
             'Content-Type : application/octet-stream',
