@@ -4,7 +4,7 @@ Test&Code é uma ferramenta para criação e correção de provas e trabalhos de
 
 ## Começando
 
-Essas instruções fornecerão uma cópia do projeto em execução na sua máquina local ou servidor, ambos Linux, para fins de desenvolvimento, teste e utilização. 
+Essas instruções fornecerão uma cópia do projeto em execução na sua máquina local ou servidor, ambos GNU/Linux(Ubuntu), para fins de desenvolvimento, teste e utilização. 
 
 ### Pré-requisitos
 
